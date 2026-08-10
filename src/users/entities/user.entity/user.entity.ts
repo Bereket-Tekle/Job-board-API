@@ -1,16 +1,17 @@
 import {
-  Column,
-  CreateDateColumn,
   Entity,
   PrimaryGeneratedColumn,
+  Column,
+  CreateDateColumn,
   UpdateDateColumn,
 } from 'typeorm';
 
 export enum UserRole {
-  ADMIN = 'admin',
-  USER = 'user',
-  EMPLOYER = 'employer',
+  SEEKER = 'seeker', // job seeker
+  EMPLOYER = 'employer', // posts jobs
+  ADMIN = 'admin', // manages everything
 }
+
 @Entity('users')
 export class UserEntity {
   @PrimaryGeneratedColumn()
@@ -22,10 +23,14 @@ export class UserEntity {
   @Column({ unique: true })
   email!: string;
 
-  @Column({ unique: false })
+  @Column({ select: false }) // never returned in queries
   password!: string;
 
-  @Column({ type: 'enum', enum: UserRole, default: UserRole.USER })
+  @Column({
+    type: 'enum',
+    enum: UserRole,
+    default: UserRole.SEEKER,
+  })
   role!: UserRole;
 
   @Column({ default: true })
