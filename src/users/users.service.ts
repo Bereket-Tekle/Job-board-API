@@ -22,11 +22,11 @@ export class UsersService {
       },
     });
   }
+
   async findById(id: number): Promise<UserEntity | null> {
-    return this.usersRepository.findOne({
-      where: {id}
-    })
-  }
+  return this.usersRepository.findOne({ where: { id } });
+  
+}
   async create(data: Partial<UserEntity>): Promise<UserEntity> {
     const user = this.usersRepository.create(data);
     return this.usersRepository.save(user)

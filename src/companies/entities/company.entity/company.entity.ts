@@ -3,10 +3,10 @@ import {
   Column,
   CreateDateColumn,
   JoinColumn,
-  OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
-  ManyToMany,
+ 
+  ManyToOne,
 } from 'typeorm';
 import { UserEntity } from '../../../users/entities/user.entity/user.entity';
 
@@ -38,7 +38,7 @@ export class Company {
   logo!: string;
 
   // one employer own this company
-  @ManyToMany(()=> UserEntity, {eager: true})
+  @ManyToOne(()=> UserEntity, {eager: true})
   @JoinColumn({name: 'ownerId'})
   owner!: UserEntity;
 
