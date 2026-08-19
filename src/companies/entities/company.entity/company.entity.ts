@@ -50,4 +50,5 @@ export class Company {
 
   @UpdateDateColumn()
   updatedAt!: Date;
+    static id: number | undefined;
 }
