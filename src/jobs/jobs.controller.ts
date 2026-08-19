@@ -20,15 +20,15 @@ import { CreateJobDto } from './dto/create-job.dto/create-job.dto';
 import { CurrentUser } from 'src/auth/decorators/current-user.decorator/current-user.decorator';
 import { Roles } from 'src/auth/decorators/roles.decorator/roles.decorator';
 import { FilterJobDto } from './dto/filter-job.dto/filter-job.dto';
-import { UpdateCompanyDto } from 'src/companies/dto/update-company.dto/update-company.dto';
 import { UpdateJobDto } from './dto/update-job.dto/update-job.dto';
+import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard/jwt-auth.guard';
 
 @Controller('jobs')
 export class JobsController {
   constructor(private jobService: JobsService) {}
   // POST /api/jobs — employer only
   @Post()
-  @UseGuards(RolesGuard)
+  @UseGuards(JwtAuthGuard,RolesGuard)
   @Roles(UserRole.EMPLOYER)
   create(@Body() dto: CreateJobDto, @CurrentUser() user: UserEntity) {
     return this.jobService.create(dto, user);
@@ -48,7 +48,7 @@ export class JobsController {
   }
   //PATCH /api/jobs/:id — employer who owns the company
   @Patch()
-  @UseGuards(RolesGuard)
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(UserRole.EMPLOYER)
   update(
     @Param('id', ParseIntPipe) id: number,
@@ -59,9 +59,8 @@ export class JobsController {
   }
 
   // DELETE /api/jobs/:id — employer who owns the company
-
   @Delete()
-  @UseGuards(RolesGuard)
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(UserRole.EMPLOYER)
   remove(
     @Param('id', ParseIntPipe) id: number,
