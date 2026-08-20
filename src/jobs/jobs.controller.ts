@@ -47,7 +47,7 @@ export class JobsController {
     return this.jobService.findOne(id);
   }
   //PATCH /api/jobs/:id — employer who owns the company
-  @Patch()
+  @Patch(':id')
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(UserRole.EMPLOYER)
   update(
