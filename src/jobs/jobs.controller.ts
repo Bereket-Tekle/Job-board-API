@@ -58,6 +58,7 @@ export class JobsController {
     return this.jobService.update(id, dto, user);
   }
 
+  
   // DELETE /api/jobs/:id — employer who owns the company
   @Delete()
   @UseGuards(JwtAuthGuard, RolesGuard)
